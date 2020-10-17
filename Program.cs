@@ -136,13 +136,15 @@ namespace Assignment1_Fall20
                     Console.WriteLine("Enter 1 for { 3, 1, 4, 1, 5 } with n-diff = 2.");
                     Console.WriteLine("Enter 2 for { 1, 2, 3, 4, 5 } with n-diff = 1.");
                     Console.WriteLine("Enter 3 for { 1, 3, 1, 5, 4 } with n-diff = 0.");
-                    Console.WriteLine("Enter 4 to specify a custom 5-array and n-diff value.");
+                    Console.WriteLine("Enter 4 to specify a custom array and n-diff value.");
                     string input = Console.ReadLine();
                     int arrChoice = int.Parse(input);
                     // initialize variables
                     int[] nums = new int[5];
                     int k = 0;
                     int pairs = 0;
+                    string dVal = "";
+                    string inputArr = "";
                     if (arrChoice == 1)
                     {
                         // correct output = 2
@@ -175,45 +177,34 @@ namespace Assignment1_Fall20
                     }
                     else if (arrChoice == 4)
                     {
-                        try
-                        {
-                            Console.WriteLine("\nPlease enter the first integer.");
-                            string str1 = Console.ReadLine();
-                            int int1 = int.Parse(str1);
-                            Console.WriteLine("\nPlease enter the second integer.");
-                            string str2 = Console.ReadLine();
-                            int int2 = int.Parse(str2);
-                            Console.WriteLine("\nPlease enter the third integer.");
-                            string str3 = Console.ReadLine();
-                            int int3 = int.Parse(str3);
-                            Console.WriteLine("\nPlease enter the fourth integer.");
-                            string str4 = Console.ReadLine();
-                            int int4 = int.Parse(str4);
-                            Console.WriteLine("\nPlease enter the fifth integer.");
-                            string str5 = Console.ReadLine();
-                            int int5 = int.Parse(str5);
-                            Console.WriteLine("\nPlease enter the n-diff value.");
-                            string str6 = Console.ReadLine();
-                            int int6 = int.Parse(str6);
-                            nums[0] = int1;
-                            nums[1] = int2;
-                            nums[2] = int3;
-                            nums[3] = int4;
-                            nums[4] = int5;
-                            k = int6;
-                        } // end of try block
-                        catch
-                        {
-                            Console.WriteLine("\nPlease enter only integers.");
-                            continue;
-                        }
+                        Console.WriteLine("\nPlease enter the n-diff value.");
+                        dVal = Console.ReadLine();
+                        Console.WriteLine("\nPlease enter the array of integers separated by commas.");
+                        inputArr = Console.ReadLine();
                     }
                     else
                     {
                         Console.WriteLine("\nPlease enter 1, 2, 3, or 4.");
                         continue;
                     }
-                    pairs = DiffPairs(nums, k);
+                    if (arrChoice == 4)
+                    {
+                        try
+                        {
+                            k = int.Parse(dVal);
+                            int[] intArr = inputArr.Split(',').Select(int.Parse).ToArray();
+                            pairs = DiffPairs(intArr, k);
+                        } // end of try block
+                        catch
+                        {
+                            Console.WriteLine("\nPlease enter only integers and commas.");
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        pairs = DiffPairs(nums, k);
+                    }
                     Console.WriteLine("\n" + pairs + " unique n-diff pairs were found in the array.");
                     Console.WriteLine("\nPress any key to continue ...\n");
                     Console.ReadKey();
@@ -245,7 +236,7 @@ namespace Assignment1_Fall20
                     if (wordChoice == 1)
                     {
                         // correct output = 18
-                        word = "dis"; 
+                        word = "dis";
                         keyboard = "abcdefghijklmnopqrstuvwxyz";
                         time = BullsKeyboard(keyboard, word);
                         Console.WriteLine("\nThe time required to type the word was " + time + ".");
@@ -539,7 +530,7 @@ namespace Assignment1_Fall20
                         for (int z = 1; i + z < j.Length; z++)
                         {
                             // avoid counting duplicates
-                            if (tempSeen.Contains(j[i + z]))
+                            if (tempSeen.Contains(j[i + z]) || seen.Contains(j[i + z]))
                             {
                                 continue;
                             }
